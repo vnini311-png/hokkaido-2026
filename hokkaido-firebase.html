@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北海道旅遊計劃 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ── */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#f7f4ef;--cream2:#f0ebe2;--cream3:#e8e0d4;
+  --ink:#2c2825;--ink2:#5a534a;--ink3:#8c8278;--ink4:#b8b0a6;
+  --moss:#4d7358;--moss-l:#e8f0ea;--moss-m:#7a9e87;
+  --rust:#b05c3a;--rust-l:#f5e8e2;
+  --gold:#a07840;--gold-l:#f5edd8;
+  --blue-l:#e6f0fb;--blue:#2d6ca5;
+  --purple-l:#eeecfd;--purple:#5044b0;
+  --pink-l:#fceaf1;--pink:#994070;
+  --gray-l:#f0ece6;--gray:#6b6058;
+  --border:rgba(90,83,74,0.12);--border2:rgba(90,83,74,0.22);
+  --serif:'Noto Serif TC',serif;
+  --sans:'Noto Sans TC',sans-serif;
+  --radius:8px;--radius-lg:12px;
+}
+body{background:var(--cream);font-family:var(--sans);color:var(--ink);min-height:100vh;font-size:14px}
+
+/* ── LAYOUT ── */
+.app{max-width:900px;margin:0 auto;background:var(--cream)}
+
+/* ── HEADER ── */
+.header{background:var(--cream2);border-bottom:1px solid var(--border2);padding:28px 28px 20px}
+.header-eyebrow{font-size:10px;letter-spacing:4px;color:var(--ink3);font-family:var(--serif);margin-bottom:8px}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.header h1{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--ink);letter-spacing:1.5px;line-height:1.2}
+.header-sub{font-size:12px;color:var(--ink3);margin-top:6px;letter-spacing:0.5px}
+.header-deco{font-family:var(--serif);font-size:13px;color:var(--ink4);letter-spacing:8px;padding-top:6px;text-align:right;line-height:2}
+
+/* ── SYNC BAR ── */
+.sync-bar{background:var(--cream2);border-bottom:1px solid var(--border);padding:8px 28px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--moss);flex-shrink:0;transition:background 0.3s}
+.sync-dot.syncing{background:var(--gold);animation:blink 1s infinite}
+.sync-dot.error{background:var(--rust)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.sync-msg{font-size:11px;color:var(--ink3);flex:1;letter-spacing:0.3px}
+.sync-btn{font-size:11px;color:var(--ink2);background:none;border:0.5px solid var(--border2);border-radius:20px;padding:3px 14px;cursor:pointer;font-family:var(--sans);transition:background 0.15s}
+.sync-btn:hover{background:var(--cream3)}
+
+/* ── TABS ── */
+.tabs{display:flex;overflow-x:auto;background:var(--cream);border-bottom:1px solid var(--border2);scrollbar-width:none;padding:0 16px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:12px 16px;font-size:12px;color:var(--ink3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;white-space:nowrap;letter-spacing:0.5px;transition:color 0.15s;font-family:var(--sans)}
+.tab:hover{color:var(--ink)}
+.tab.active{color:var(--moss);border-bottom-color:var(--moss)}
+
+/* ── CONTENT ── */
+.content{padding:26px 28px}
+.section{display:none}
+.section.active{display:block}
+.sec-title{font-family:var(--serif);font-size:16px;font-weight:400;color:var(--ink);margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border2);letter-spacing:1px}
+
+/* ── FORMS ── */
+input,select,textarea{font-family:var(--sans);font-size:13px;color:var(--ink);background:#fff;border:0.5px solid var(--border2);border-radius:var(--radius);padding:8px 11px;outline:none;transition:border-color 0.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--moss)}
+.row-add{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap}
+.row-add input,.row-add select{flex:1;min-width:70px}
+.add-btn{padding:8px 18px;font-size:12px;letter-spacing:0.5px;background:var(--moss);color:#fff;border:none;border-radius:var(--radius);cursor:pointer;font-family:var(--sans);flex-shrink:0;transition:background 0.15s}
+.add-btn:hover{background:var(--moss-m)}
+
+/* ── TODO ── */
+.todo-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#fff;border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:6px;transition:opacity 0.2s}
+.todo-item.done{opacity:0.42}
+.todo-item input[type=checkbox]{width:15px;height:15px;accent-color:var(--moss);flex-shrink:0;cursor:pointer}
+.todo-text{flex:1;font-size:13px;color:var(--ink)}
+.todo-item.done .todo-text{text-decoration:line-through;color:var(--ink3)}
+.prog-label{font-size:11px;color:var(--ink3);margin-bottom:5px;letter-spacing:0.3px}
+.prog-bar{height:2px;background:var(--border2);border-radius:1px;margin-bottom:16px}
+.prog-fill{height:100%;background:var(--moss);border-radius:1px;transition:width 0.4s}
+.filter-row{display:flex;gap:5px;margin-bottom:14px}
+.fbtn{padding:3px 13px;font-size:11px;border-radius:20px;cursor:pointer;border:0.5px solid var(--border2);background:none;color:var(--ink3);font-family:var(--sans);letter-spacing:0.3px;transition:all 0.15s}
+.fbtn.active{background:var(--moss);color:#fff;border-color:var(--moss)}
+
+/* ── PILLS ── */
+.pill{font-size:10px;padding:2px 8px;border-radius:20px;flex-shrink:0;letter-spacing:0.3px}
+.pill-費用{background:var(--gold-l);color:var(--gold)}
+.pill-行程{background:var(--blue-l);color:var(--blue)}
+.pill-住宿{background:var(--purple-l);color:var(--purple)}
+.pill-交通{background:var(--rust-l);color:var(--rust)}
+.pill-飲食{background:var(--moss-l);color:var(--moss)}
+.pill-寶寶{background:var(--pink-l);color:var(--pink)}
+.pill-其他{background:var(--gray-l);color:var(--gray)}
+
+/* ── BUDGET CARDS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.stat-card{background:#fff;border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}
+.stat-label{font-size:10px;color:var(--ink3);letter-spacing:1px;margin-bottom:5px;font-family:var(--serif)}
+.stat-value{font-size:22px;font-weight:400;color:var(--ink);font-family:var(--serif)}
+.stat-unit{font-size:10px;color:var(--ink3);margin-top:2px}
+
+/* ── EXPENSE ROWS ── */
+.exp-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#fff;border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:5px}
+.exp-name{flex:1;font-size:13px}
+.exp-amt{font-size:13px;font-family:var(--serif);min-width:85px;text-align:right}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed}
+.data-table th{text-align:left;padding:8px 10px;font-size:10px;font-weight:400;color:var(--ink3);border-bottom:1px solid var(--border2);letter-spacing:1px;font-family:var(--serif)}
+.data-table td{padding:10px 10px;border-bottom:0.5px solid var(--border);color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:#fdfcfa}
+
+/* ── BADGES ── */
+.sbadge{font-size:10px;padding:2px 8px;border-radius:20px;letter-spacing:0.3px;display:inline-block}
+.s-confirmed,.s-已確認{background:var(--moss-l);color:var(--moss)}
+.s-pending,.s-待確認{background:var(--gold-l);color:var(--gold)}
+.s-想去{background:var(--blue-l);color:var(--blue)}
+.s-已訂位{background:var(--moss-l);color:var(--moss)}
+.s-high,.s-重要{background:var(--rust-l);color:var(--rust)}
+.s-mid,.s-一般{background:var(--blue-l);color:var(--blue)}
+.s-low,.s-次要{background:var(--gray-l);color:var(--gray)}
+
+/* ── DEL BUTTON ── */
+.del-btn{background:none;border:none;color:var(--ink4);cursor:pointer;font-size:16px;padding:0;line-height:1;transition:color 0.15s;flex-shrink:0}
+.del-btn:hover{color:var(--rust)}
+
+/* ── NOTES ── */
+.note-area{width:100%;min-height:110px;padding:12px 14px;font-size:13px;line-height:1.8;color:var(--ink);border:0.5px solid var(--border2);border-radius:var(--radius-lg);background:#fff;resize:vertical;font-family:var(--serif)}
+.empty-note{text-align:center;padding:32px;color:var(--ink3);font-size:12px;letter-spacing:0.5px;font-family:var(--serif)}
+
+/* ── PHOTO SECTION ── */
+.photo-section{margin-top:22px}
+.photo-section-title{font-family:var(--serif);font-size:12px;color:var(--ink3);letter-spacing:1px;margin-bottom:10px}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:10px}
+.photo-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--radius);border:0.5px solid var(--border);cursor:pointer;transition:opacity 0.15s}
+.photo-thumb:hover{opacity:0.85}
+.photo-upload-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:8px;font-size:11px;color:var(--ink3);background:none;border:0.5px dashed var(--border2);border-radius:var(--radius);cursor:pointer;font-family:var(--sans);letter-spacing:0.3px;transition:all 0.15s}
+.photo-upload-btn:hover{border-color:var(--moss);color:var(--moss)}
+.photo-upload-input{display:none}
+
+/* ── LIGHTBOX ── */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(44,40,37,0.9);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.lightbox.open{display:flex}
+.lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:var(--radius)}
+.lightbox-close{position:fixed;top:20px;right:24px;font-size:28px;color:#fff;cursor:pointer;background:none;border:none;opacity:0.7}
+.lightbox-close:hover{opacity:1}
+.lightbox-del{position:fixed;bottom:24px;right:24px;font-size:12px;color:#fff;cursor:pointer;background:var(--rust);border:none;padding:6px 16px;border-radius:20px;opacity:0.85}
+.lightbox-del:hover{opacity:1}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:8px 20px;border-radius:20px;font-size:12px;letter-spacing:0.5px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:9998;white-space:nowrap}
+.toast.show{opacity:1}
+
+/* ── BUDGET ROW ── */
+.budget-row{display:flex;gap:8px;margin-bottom:14px;align-items:center}
+.budget-row span{font-size:12px;color:var(--ink3)}
+.budget-row input{width:140px}
+.set-btn{padding:7px 14px;font-size:11px;background:none;border:0.5px solid var(--border2);border-radius:var(--radius);cursor:pointer;color:var(--ink2);font-family:var(--sans);transition:background 0.15s}
+.set-btn:hover{background:var(--cream2)}
+
+/* ── PHOTO CAPTION ── */
+.photo-item{position:relative}
+.photo-del-overlay{display:none;position:absolute;top:4px;right:4px;background:var(--rust);color:#fff;border:none;border-radius:50%;width:20px;height:20px;font-size:12px;cursor:pointer;align-items:center;justify-content:center}
+.photo-item:hover .photo-del-overlay{display:flex}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">×</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-del" onclick="deleteCurrentPhoto()">刪除照片</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="app">
+  <div class="header">
+    <div class="header-eyebrow">旅行手記 · 2026</div>
+    <div class="header-top">
+      <div>
+        <h1>北海道旅遊計劃</h1>
+        <div class="header-sub">夫妻共筆 · 即時同步 · 照片記錄</div>
+      </div>
+      <div class="header-deco">北 海 道<br>2026</div>
+    </div>
+  </div>
+
+  <div class="sync-bar">
+    <span class="sync-dot" id="syncDot"></span>
+    <span class="sync-msg" id="syncMsg">初始化中...</span>
+    <button class="sync-btn" onclick="showLastSync()">同步狀態</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="sw(0)">待辦清單</button>
+    <button class="tab" onclick="sw(1)">費用</button>
+    <button class="tab" onclick="sw(2)">行程</button>
+    <button class="tab" onclick="sw(3)">住宿</button>
+    <button class="tab" onclick="sw(4)">交通</button>
+    <button class="tab" onclick="sw(5)">飲食</button>
+    <button class="tab" onclick="sw(6)">寶寶用品</button>
+    <button class="tab" onclick="sw(7)">其他事項</button>
+  </div>
+
+  <div class="content">
+
+    <!-- 待辦清單 -->
+    <div class="section active" id="sec0">
+      <div class="sec-title">待辦清單</div>
+      <div class="row-add">
+        <input id="todoInput" type="text" placeholder="新增待辦項目..." onkeydown="if(event.key==='Enter')addTodo()">
+        <select id="todoTag"><option>費用</option><option>行程</option><option>住宿</option><option>交通</option><option>飲食</option><option>寶寶</option><option>其他</option></select>
+        <input id="todoOwner" type="text" placeholder="負責人" style="flex:0 0 80px">
+        <button class="add-btn" onclick="addTodo()">新增</button>
+      </div>
+      <div class="filter-row">
+        <button class="fbtn active" onclick="setF('all',this)">全部</button>
+        <button class="fbtn" onclick="setF('active',this)">未完成</button>
+        <button class="fbtn" onclick="setF('done',this)">已完成</button>
+      </div>
+      <div class="prog-label" id="progLabel">完成 0 / 0 項</div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+      <div id="todoList"></div>
+      <div class="photo-section">
+        <div class="photo-section-title">照片記錄</div>
+        <div class="photo-grid" id="photos-todo"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('todo',this)">＋ 新增照片</label>
+      </div>
+    </div>
+
+    <!-- 費用 -->
+    <div class="section" id="sec1">
+      <div class="sec-title">費用記錄</div>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="stat-label">總預算</div><div class="stat-value" id="bTotal">0</div><div class="stat-unit">TWD</div></div>
+        <div class="stat-card"><div class="stat-label">已支出</div><div class="stat-value" id="bSpent">0</div><div class="stat-unit">TWD</div></div>
+        <div class="stat-card"><div class="stat-label">剩餘</div><div class="stat-value" id="bLeft">0</div><div class="stat-unit">TWD</div></div>
+      </div>
+      <div class="budget-row">
+        <span>設定總預算</span>
+        <input id="budgetInput" type="number" placeholder="輸入金額">
+        <button class="set-btn" onclick="setBudget()">確認</button>
+      </div>
+      <div class="row-add">
+        <input id="expName" type="text" placeholder="項目名稱" style="flex:2">
+        <input id="expAmt" type="number" placeholder="金額 TWD">
+        <select id="expCat"><option>交通</option><option>住宿</option><option>飲食</option><option>門票</option><option>購物</option><option>寶寶</option><option>其他</option></select>
+        <input id="expOwner" type="text" placeholder="付款人" style="flex:0 0 70px">
+        <button class="add-btn" onclick="addExp()">新增</button>
+      </div>
+      <div id="expList"></div>
+      <div class="photo-section">
+        <div class="photo-section-title">收據 / 截圖</div>
+        <div class="photo-grid" id="photos-expense"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('expense',this)">＋ 新增收據照片</label>
+      </div>
+    </div>
+
+    <!-- 行程 -->
+    <div class="section" id="sec2">
+      <div class="sec-title">行程規劃</div>
+      <div class="row-add">
+        <input id="itDate" type="date" style="flex:0 0 135px">
+        <input id="itTime" type="time" style="flex:0 0 100px">
+        <input id="itPlace" type="text" placeholder="地點 / 活動">
+        <input id="itNote" type="text" placeholder="備注">
+        <button class="add-btn" onclick="addIt()">新增</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-table"><thead><tr><th style="width:105px">日期</th><th style="width:68px">時間</th><th>地點</th><th>備注</th><th style="width:28px"></th></tr></thead><tbody id="itBody"></tbody></table>
+      </div>
+      <div class="empty-note" id="itEmpty">尚無行程，一起規劃吧</div>
+      <div class="photo-section">
+        <div class="photo-section-title">景點照片</div>
+        <div class="photo-grid" id="photos-itinerary"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('itinerary',this)">＋ 新增照片</label>
+      </div>
+    </div>
+
+    <!-- 住宿 -->
+    <div class="section" id="sec3">
+      <div class="sec-title">住宿資訊</div>
+      <div class="row-add">
+        <input id="hoDate" type="text" placeholder="入住日期" style="flex:0 0 100px">
+        <input id="hoOut" type="text" placeholder="退房日期" style="flex:0 0 100px">
+        <input id="hoName" type="text" placeholder="飯店名稱">
+        <input id="hoAddr" type="text" placeholder="地址">
+        <input id="hoPrice" type="number" placeholder="費用" style="flex:0 0 85px">
+        <select id="hoSt"><option value="已確認">已確認</option><option value="待確認">待確認</option></select>
+        <input id="hoNote" type="text" placeholder="備注">
+        <button class="add-btn" onclick="addHotel()">新增</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-table"><thead><tr><th style="width:88px">入住</th><th style="width:88px">退房</th><th>飯店</th><th>地址</th><th style="width:75px">費用</th><th style="width:62px">狀態</th><th>備注</th><th style="width:28px"></th></tr></thead><tbody id="hoBody"></tbody></table>
+      </div>
+      <div class="empty-note" id="hoEmpty">尚未安排住宿</div>
+      <div class="photo-section">
+        <div class="photo-section-title">飯店照片 / 確認信截圖</div>
+        <div class="photo-grid" id="photos-hotel"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('hotel',this)">＋ 新增照片</label>
+      </div>
+    </div>
+
+    <!-- 交通 -->
+    <div class="section" id="sec4">
+      <div class="sec-title">交通安排</div>
+      <div class="row-add">
+        <input id="trDate" type="text" placeholder="日期" style="flex:0 0 85px">
+        <input id="trType" type="text" placeholder="類型">
+        <input id="trFrom" type="text" placeholder="出發地">
+        <input id="trTo" type="text" placeholder="目的地">
+        <input id="trPrice" type="number" placeholder="費用" style="flex:0 0 78px">
+        <input id="trNote" type="text" placeholder="備注">
+        <button class="add-btn" onclick="addTr()">新增</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-table"><thead><tr><th style="width:80px">日期</th><th style="width:75px">類型</th><th>出發</th><th>目的</th><th style="width:68px">費用</th><th>備注</th><th style="width:28px"></th></tr></thead><tbody id="trBody"></tbody></table>
+      </div>
+      <div class="empty-note" id="trEmpty">尚未安排交通</div>
+      <div class="photo-section">
+        <div class="photo-section-title">機票 / 車票截圖</div>
+        <div class="photo-grid" id="photos-transport"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('transport',this)">＋ 新增票券照片</label>
+      </div>
+    </div>
+
+    <!-- 飲食 -->
+    <div class="section" id="sec5">
+      <div class="sec-title">美食清單</div>
+      <div class="row-add">
+        <input id="fdName" type="text" placeholder="餐廳 / 美食">
+        <input id="fdLoc" type="text" placeholder="地點">
+        <select id="fdType"><option>早餐</option><option>午餐</option><option>晚餐</option><option>甜點</option><option>小吃</option><option>超市</option></select>
+        <input id="fdNote" type="text" placeholder="備注">
+        <select id="fdSt"><option value="想去">想去</option><option value="已訂位">已訂位</option></select>
+        <button class="add-btn" onclick="addFd()">新增</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-table"><thead><tr><th>名稱</th><th>地點</th><th style="width:54px">類型</th><th>備注</th><th style="width:60px">狀態</th><th style="width:28px"></th></tr></thead><tbody id="fdBody"></tbody></table>
+      </div>
+      <div class="empty-note" id="fdEmpty">還沒有美食清單，快來蒐集</div>
+      <div class="photo-section">
+        <div class="photo-section-title">美食照片</div>
+        <div class="photo-grid" id="photos-food"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('food',this)">＋ 新增美食照片</label>
+      </div>
+    </div>
+
+    <!-- 寶寶用品 -->
+    <div class="section" id="sec6">
+      <div class="sec-title">寶寶用品清單</div>
+      <div class="row-add">
+        <input id="bbItem" type="text" placeholder="用品名稱">
+        <input id="bbQty" type="text" placeholder="數量" style="flex:0 0 65px">
+        <select id="bbCat"><option>衣物</option><option>食品</option><option>衛生</option><option>睡眠</option><option>玩具</option><option>醫藥</option><option>其他</option></select>
+        <input id="bbNote" type="text" placeholder="備注">
+        <button class="add-btn" onclick="addBb()">新增</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-table">
+          <thead><tr><th style="width:28px"></th><th>用品</th><th style="width:55px">數量</th><th style="width:54px">分類</th><th>備注</th><th style="width:28px"></th></tr></thead>
+          <tbody id="bbBody"></tbody>
+        </table>
+      </div>
+      <div class="empty-note" id="bbEmpty">記得替寶寶打包行李</div>
+      <div class="photo-section">
+        <div class="photo-section-title">寶寶用品照片</div>
+        <div class="photo-grid" id="photos-baby"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('baby',this)">＋ 新增照片</label>
+      </div>
+    </div>
+
+    <!-- 其他事項 -->
+    <div class="section" id="sec7">
+      <div class="sec-title">其他事項</div>
+      <div class="row-add">
+        <input id="otItem" type="text" placeholder="事項名稱">
+        <input id="otNote" type="text" placeholder="說明">
+        <select id="otPri"><option value="重要">重要</option><option value="一般">一般</option><option value="次要">次要</option></select>
+        <input id="otOwner" type="text" placeholder="負責人" style="flex:0 0 80px">
+        <button class="add-btn" onclick="addOt()">新增</button>
+      </div>
+      <div class="tbl-wrap">
+        <table class="data-table"><thead><tr><th>事項</th><th>說明</th><th style="width:55px">優先度</th><th style="width:60px">負責人</th><th style="width:28px"></th></tr></thead><tbody id="otBody"></tbody></table>
+      </div>
+      <div class="empty-note" id="otEmpty">尚無其他事項</div>
+      <div style="margin-top:22px">
+        <div style="font-family:var(--serif);font-size:12px;color:var(--ink3);letter-spacing:1px;margin-bottom:8px">共同備注</div>
+        <textarea class="note-area" id="sharedNote" placeholder="旅途中的點點滴滴，記錄在這裡..."></textarea>
+      </div>
+      <div class="photo-section">
+        <div class="photo-section-title">其他照片</div>
+        <div class="photo-grid" id="photos-other"></div>
+        <label class="photo-upload-btn"><input class="photo-upload-input" type="file" accept="image/*" multiple onchange="uploadPhotos('other',this)">＋ 新增照片</label>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, onValue, set, get } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+
+// ══════════════════════════════════════════
+//  🔧 在這裡貼上你的 Firebase 設定
+// ══════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyA_bLbc_lMp7--fSyG0p_baVz2HFG34wuw",
+  authDomain: "as-hokkaido.firebaseapp.com",
+  databaseURL: "https://as-hokkaido-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "as-hokkaido",
+  storageBucket: "as-hokkaido.firebasestorage.app",
+  messagingSenderId: "464714137712",
+  appId: "1:464714137712:web:ec7116e939ea1d6d7174b5"
+};
+// ══════════════════════════════════════════
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const storage = getStorage(app);
+
+let S = { todos:[], expenses:[], budget:0, itinerary:[], hotels:[], transport:[], food:[], baby:[], other:[], note:'', photos:{} };
+let todoFilter = 'all';
+let lastSync = null;
+let lightboxKey = null;
+
+// ── SYNC STATUS ──
+function setSyncUI(s, msg) {
+  const d = document.getElementById('syncDot');
+  d.className = 'sync-dot' + (s==='syncing'?' syncing':s==='error'?' error':'');
+  document.getElementById('syncMsg').textContent = msg;
+}
+
+function showLastSync() {
+  toast(lastSync ? '上次同步：' + lastSync.toLocaleString('zh-TW') : '連接中...');
+}
+
+// ── FIREBASE REALTIME LISTEN ──
+const dataRef = ref(db, 'hokkaido2026');
+onValue(dataRef, (snapshot) => {
+  const data = snapshot.val();
+  if (data) {
+    S = Object.assign({ todos:[], expenses:[], budget:0, itinerary:[], hotels:[], transport:[], food:[], baby:[], other:[], note:'', photos:{} }, data);
+  }
+  lastSync = new Date();
+  setSyncUI('ok', '已同步 · ' + lastSync.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit'}));
+  renderAll();
+  if (S.budget) document.getElementById('budgetInput').value = S.budget;
+}, (error) => {
+  setSyncUI('error', '同步失敗，請檢查網路');
+});
+
+setSyncUI('syncing', '連接中...');
+
+// ── SAVE ──
+async function save() {
+  setSyncUI('syncing', '儲存中...');
+  try {
+    await set(dataRef, S);
+    lastSync = new Date();
+    setSyncUI('ok', '已同步 · ' + lastSync.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit'}));
+  } catch(e) {
+    setSyncUI('error', '儲存失敗');
+    toast('儲存失敗，請重試');
+  }
+}
+
+// ── TOAST ──
+window.toast = function(msg, ms=2400) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), ms);
+}
+
+// ── TABS ──
+window.sw = function(i) {
+  document.querySelectorAll('.section').forEach((s,j) => s.classList.toggle('active', j===i));
+  document.querySelectorAll('.tab').forEach((t,j) => t.classList.toggle('active', j===i));
+}
+
+window.setF = function(f, btn) {
+  todoFilter = f;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTodos();
+}
+
+// ── TODOS ──
+window.addTodo = function() {
+  const t = document.getElementById('todoInput').value.trim();
+  if (!t) return;
+  if (!S.todos) S.todos = [];
+  S.todos.push({ text:t, tag:document.getElementById('todoTag').value, owner:document.getElementById('todoOwner').value.trim(), done:false, id:Date.now() });
+  document.getElementById('todoInput').value = '';
+  renderTodos(); save();
+}
+window.toggleTodo = function(id) {
+  const x = S.todos.find(t => t.id===id);
+  if (x) { x.done = !x.done; renderTodos(); save(); }
+}
+window.delTodo = function(id) {
+  S.todos = S.todos.filter(t => t.id!==id);
+  renderTodos(); save();
+}
+function renderTodos() {
+  if (!S.todos) S.todos = [];
+  const done = S.todos.filter(t => t.done).length, tot = S.todos.length;
+  document.getElementById('progLabel').textContent = `完成 ${done} / ${tot} 項`;
+  document.getElementById('progFill').style.width = tot ? (done/tot*100)+'%' : '0%';
+  const fl = S.todos.filter(t => todoFilter==='all' ? true : todoFilter==='done' ? t.done : !t.done);
+  document.getElementById('todoList').innerHTML = fl.map(t => `
+    <div class="todo-item ${t.done?'done':''}">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})">
+      <span class="todo-text">${t.text}</span>
+      ${t.owner ? `<span style="font-size:10px;color:var(--ink3)">${t.owner}</span>` : ''}
+      <span class="pill pill-${t.tag}">${t.tag}</span>
+      <button class="del-btn" onclick="delTodo(${t.id})">×</button>
+    </div>`).join('') || '<div class="empty-note">沒有符合的項目</div>';
+}
+
+// ── EXPENSES ──
+window.setBudget = function() {
+  S.budget = parseFloat(document.getElementById('budgetInput').value) || 0;
+  renderExp(); save();
+}
+window.addExp = function() {
+  const n = document.getElementById('expName').value.trim();
+  const a = parseFloat(document.getElementById('expAmt').value) || 0;
+  if (!n || !a) return;
+  if (!S.expenses) S.expenses = [];
+  S.expenses.push({ name:n, amount:a, cat:document.getElementById('expCat').value, owner:document.getElementById('expOwner').value.trim(), id:Date.now() });
+  document.getElementById('expName').value = '';
+  document.getElementById('expAmt').value = '';
+  renderExp(); save();
+}
+window.delExp = function(id) {
+  S.expenses = S.expenses.filter(e => e.id!==id);
+  renderExp(); save();
+}
+const catPill = { 交通:'pill-交通', 住宿:'pill-住宿', 飲食:'pill-飲食', 門票:'pill-行程', 購物:'pill-其他', 寶寶:'pill-寶寶', 其他:'pill-其他' };
+function renderExp() {
+  if (!S.expenses) S.expenses = [];
+  const sp = S.expenses.reduce((a,e) => a+e.amount, 0);
+  document.getElementById('bTotal').textContent = (S.budget||0).toLocaleString();
+  document.getElementById('bSpent').textContent = sp.toLocaleString();
+  document.getElementById('bLeft').textContent = ((S.budget||0)-sp).toLocaleString();
+  document.getElementById('expList').innerHTML = S.expenses.map(e => `
+    <div class="exp-row">
+      <span class="exp-name">${e.name}</span>
+      ${e.owner ? `<span style="font-size:10px;color:var(--ink3)">${e.owner}</span>` : ''}
+      <span class="pill ${catPill[e.cat]||'pill-其他'}">${e.cat}</span>
+      <span class="exp-amt">$${e.amount.toLocaleString()}</span>
+      <button class="del-btn" onclick="delExp(${e.id})">×</button>
+    </div>`).join('') || '<div class="empty-note">尚未新增費用</div>';
+}
+
+// ── ITINERARY ──
+window.addIt = function() {
+  const p = document.getElementById('itPlace').value.trim();
+  if (!p) return;
+  if (!S.itinerary) S.itinerary = [];
+  S.itinerary.push({ date:document.getElementById('itDate').value, time:document.getElementById('itTime').value, place:p, note:document.getElementById('itNote').value.trim(), id:Date.now() });
+  S.itinerary.sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+  document.getElementById('itPlace').value = '';
+  document.getElementById('itNote').value = '';
+  renderIt(); save();
+}
+window.delIt = function(id) { S.itinerary = S.itinerary.filter(x => x.id!==id); renderIt(); save(); }
+function renderIt() {
+  if (!S.itinerary) S.itinerary = [];
+  document.getElementById('itEmpty').style.display = S.itinerary.length ? 'none' : 'block';
+  document.getElementById('itBody').innerHTML = S.itinerary.map(i => `
+    <tr><td>${i.date||'—'}</td><td>${i.time||'—'}</td><td>${i.place}</td><td style="color:var(--ink3)">${i.note||'—'}</td><td><button class="del-btn" onclick="delIt(${i.id})">×</button></td></tr>`).join('');
+}
+
+// ── HOTELS ──
+window.addHotel = function() {
+  const n = document.getElementById('hoName').value.trim();
+  if (!n) return;
+  if (!S.hotels) S.hotels = [];
+  S.hotels.push({ date:document.getElementById('hoDate').value.trim(), out:document.getElementById('hoOut').value.trim(), name:n, addr:document.getElementById('hoAddr').value.trim(), price:parseFloat(document.getElementById('hoPrice').value)||0, status:document.getElementById('hoSt').value, note:document.getElementById('hoNote').value.trim(), id:Date.now() });
+  ['hoDate','hoOut','hoName','hoAddr','hoPrice','hoNote'].forEach(id => document.getElementById(id).value = '');
+  renderHo(); save();
+}
+window.delHo = function(id) { S.hotels = S.hotels.filter(x => x.id!==id); renderHo(); save(); }
+function renderHo() {
+  if (!S.hotels) S.hotels = [];
+  document.getElementById('hoEmpty').style.display = S.hotels.length ? 'none' : 'block';
+  document.getElementById('hoBody').innerHTML = S.hotels.map(h => `
+    <tr><td>${h.date||'—'}</td><td>${h.out||'—'}</td><td>${h.name}</td><td style="color:var(--ink3);font-size:11px">${h.addr||'—'}</td><td>$${h.price.toLocaleString()}</td><td><span class="sbadge s-${h.status}">${h.status}</span></td><td style="color:var(--ink3);font-size:11px">${h.note||'—'}</td><td><button class="del-btn" onclick="delHo(${h.id})">×</button></td></tr>`).join('');
+}
+
+// ── TRANSPORT ──
+window.addTr = function() {
+  const t = document.getElementById('trType').value.trim();
+  if (!t) return;
+  if (!S.transport) S.transport = [];
+  S.transport.push({ date:document.getElementById('trDate').value.trim(), type:t, from:document.getElementById('trFrom').value.trim(), to:document.getElementById('trTo').value.trim(), price:parseFloat(document.getElementById('trPrice').value)||0, note:document.getElementById('trNote').value.trim(), id:Date.now() });
+  ['trDate','trType','trFrom','trTo','trPrice','trNote'].forEach(id => document.getElementById(id).value = '');
+  renderTr(); save();
+}
+window.delTr = function(id) { S.transport = S.transport.filter(x => x.id!==id); renderTr(); save(); }
+function renderTr() {
+  if (!S.transport) S.transport = [];
+  document.getElementById('trEmpty').style.display = S.transport.length ? 'none' : 'block';
+  document.getElementById('trBody').innerHTML = S.transport.map(t => `
+    <tr><td>${t.date||'—'}</td><td>${t.type}</td><td>${t.from||'—'}</td><td>${t.to||'—'}</td><td>$${t.price.toLocaleString()}</td><td style="color:var(--ink3)">${t.note||'—'}</td><td><button class="del-btn" onclick="delTr(${t.id})">×</button></td></tr>`).join('');
+}
+
+// ── FOOD ──
+window.addFd = function() {
+  const n = document.getElementById('fdName').value.trim();
+  if (!n) return;
+  if (!S.food) S.food = [];
+  S.food.push({ name:n, loc:document.getElementById('fdLoc').value.trim(), type:document.getElementById('fdType').value, note:document.getElementById('fdNote').value.trim(), status:document.getElementById('fdSt').value, id:Date.now() });
+  ['fdName','fdLoc','fdNote'].forEach(id => document.getElementById(id).value = '');
+  renderFd(); save();
+}
+window.delFd = function(id) { S.food = S.food.filter(x => x.id!==id); renderFd(); save(); }
+function renderFd() {
+  if (!S.food) S.food = [];
+  document.getElementById('fdEmpty').style.display = S.food.length ? 'none' : 'block';
+  document.getElementById('fdBody').innerHTML = S.food.map(f => `
+    <tr><td>${f.name}</td><td style="color:var(--ink3)">${f.loc||'—'}</td><td>${f.type}</td><td style="color:var(--ink3)">${f.note||'—'}</td><td><span class="sbadge s-${f.status}">${f.status}</span></td><td><button class="del-btn" onclick="delFd(${f.id})">×</button></td></tr>`).join('');
+}
+
+// ── BABY ──
+window.addBb = function() {
+  const it = document.getElementById('bbItem').value.trim();
+  if (!it) return;
+  if (!S.baby) S.baby = [];
+  S.baby.push({ item:it, qty:document.getElementById('bbQty').value.trim()||'1', cat:document.getElementById('bbCat').value, note:document.getElementById('bbNote').value.trim(), packed:false, id:Date.now() });
+  ['bbItem','bbQty','bbNote'].forEach(id => document.getElementById(id).value = '');
+  renderBb(); save();
+}
+window.delBb = function(id) { S.baby = S.baby.filter(x => x.id!==id); renderBb(); save(); }
+window.toggleBb = function(id) { const b = S.baby.find(x => x.id===id); if(b){b.packed=!b.packed;renderBb();save();} }
+function renderBb() {
+  if (!S.baby) S.baby = [];
+  document.getElementById('bbEmpty').style.display = S.baby.length ? 'none' : 'block';
+  document.getElementById('bbBody').innerHTML = S.baby.map(b => `
+    <tr style="${b.packed?'opacity:0.42':''}">
+      <td><input type="checkbox" ${b.packed?'checked':''} onchange="toggleBb(${b.id})" style="accent-color:var(--moss)"></td>
+      <td style="${b.packed?'text-decoration:line-through':''}">${b.item}</td>
+      <td>${b.qty}</td>
+      <td><span class="pill pill-寶寶" style="font-size:9px">${b.cat}</span></td>
+      <td style="color:var(--ink3)">${b.note||'—'}</td>
+      <td><button class="del-btn" onclick="delBb(${b.id})">×</button></td>
+    </tr>`).join('');
+}
+
+// ── OTHER ──
+window.addOt = function() {
+  const it = document.getElementById('otItem').value.trim();
+  if (!it) return;
+  if (!S.other) S.other = [];
+  S.other.push({ item:it, note:document.getElementById('otNote').value.trim(), priority:document.getElementById('otPri').value, owner:document.getElementById('otOwner').value.trim(), id:Date.now() });
+  ['otItem','otNote','otOwner'].forEach(id => document.getElementById(id).value = '');
+  renderOt(); save();
+}
+window.delOt = function(id) { S.other = S.other.filter(x => x.id!==id); renderOt(); save(); }
+function renderOt() {
+  if (!S.other) S.other = [];
+  document.getElementById('otEmpty').style.display = S.other.length ? 'none' : 'block';
+  document.getElementById('otBody').innerHTML = S.other.map(o => `
+    <tr><td>${o.item}</td><td style="color:var(--ink3)">${o.note||'—'}</td><td><span class="sbadge s-${o.priority}">${o.priority}</span></td><td style="color:var(--ink3)">${o.owner||'—'}</td><td><button class="del-btn" onclick="delOt(${o.id})">×</button></td></tr>`).join('');
+  const n = document.getElementById('sharedNote');
+  n.value = S.note || '';
+  n.oninput = () => { S.note = n.value; save(); };
+}
+
+// ── PHOTOS ──
+window.uploadPhotos = async function(section, input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  toast(`上傳 ${files.length} 張照片中...`);
+  if (!S.photos) S.photos = {};
+  if (!S.photos[section]) S.photos[section] = [];
+  for (const file of files) {
+    const key = `${section}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const storageRef = sRef(storage, `hokkaido2026/${key}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    S.photos[section].push({ key, url });
+    await save();
+    renderPhotos(section);
+  }
+  toast('照片上傳完成');
+  input.value = '';
+}
+
+function renderPhotos(section) {
+  const grid = document.getElementById(`photos-${section}`);
+  if (!grid) return;
+  const photos = (S.photos && S.photos[section]) || [];
+  grid.innerHTML = photos.map(p => `
+    <div class="photo-item">
+      <img class="photo-thumb" src="${p.url}" alt="" onclick="openLightbox('${p.key}','${p.url}','${section}')">
+      <button class="photo-del-overlay" onclick="deletePhoto('${section}','${p.key}',event)">×</button>
+    </div>`).join('');
+}
+
+window.openLightbox = function(key, url, section) {
+  lightboxKey = { key, section };
+  document.getElementById('lightboxImg').src = url;
+  document.getElementById('lightbox').classList.add('open');
+}
+window.closeLightbox = function() {
+  document.getElementById('lightbox').classList.remove('open');
+  lightboxKey = null;
+}
+window.deleteCurrentPhoto = async function() {
+  if (!lightboxKey) return;
+  await deletePhoto(lightboxKey.section, lightboxKey.key);
+  closeLightbox();
+}
+window.deletePhoto = async function(section, key, e) {
+  if (e) e.stopPropagation();
+  try {
+    const storageRef = sRef(storage, `hokkaido2026/${key}`);
+    await deleteObject(storageRef);
+  } catch(err) {}
+  if (S.photos && S.photos[section]) {
+    S.photos[section] = S.photos[section].filter(p => p.key !== key);
+    await save();
+    renderPhotos(section);
+  }
+  toast('照片已刪除');
+}
+
+function renderAllPhotos() {
+  ['todo','expense','itinerary','hotel','transport','food','baby','other'].forEach(renderPhotos);
+}
+
+function renderAll() {
+  renderTodos(); renderExp(); renderIt(); renderHo(); renderTr(); renderFd(); renderBb(); renderOt(); renderAllPhotos();
+}
+
+// close lightbox on backdrop click
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+
+</script>
+</body>
+</html>
